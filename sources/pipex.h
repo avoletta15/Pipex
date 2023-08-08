@@ -5,7 +5,8 @@
 # include 	<stdlib.h>
 # include 	<string.h>
 # include 	<unistd.h>
-#include 	<sys/_types.h>
+/* #include 	<sys/_types.h> */
+#include	<sys/wait.h>
 # include "../libft/libft.h"
 
 typedef struct s_info
@@ -27,7 +28,7 @@ void	process_one(char **argv, t_info *info);
 void	process_two(char **argv, t_info *info);
 
 /* utils */
-void	find_env_paths(t_info *info, char **envp);
+void	find_env_paths(t_info *info);
 int		execute_command(char *cmd, t_info *info);
 
 /* errors */

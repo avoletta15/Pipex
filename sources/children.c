@@ -2,6 +2,7 @@
 
 void	process_one(char **argv, t_info *info)
 {
+	printf("process one: inside");
 	info->infile = open(argv[1], O_RDONLY);
 	if (info->infile < 0)
 	{
@@ -12,21 +13,22 @@ void	process_one(char **argv, t_info *info)
 	info->fd_dup[0] = dup2(info->infile, STDIN_FILENO);
 	close(info->infile);
 	info->fd_dup[1] = dup2(info->fd_pipe[1], STDOUT_FILENO);
-	close(info->fd_pipe[1]);
-	if (execute_command(argv[2], info) == 0)
-	{
-		execve(info->my_commands[0], info->my_commands, info->envp);
-		perror("execve");
-	}
-	close(info->fd_dup[0]);
-	close(info->fd_dup[1]);
-	free(info);
-	exit(EXIT_FAILURE); /* failuere? */
+	// close(info->fd_pipe[1]);
+	// if (execute_command(argv[2], info) == 0)
+	// {
+	// 	execve(info->my_commands[0], info->my_commands, info->envp);
+	// 	perror("execve");
+	// }
+	// close(info->fd_dup[0]);
+	// close(info->fd_dup[1]);
+	// free(info);
+	// exit(EXIT_FAILURE);
 }
 
 void	process_two(char **argv, t_info *info)
 {
-	info->outfile = open(argv[4], O_TRUNC, O_RDWR, 0644);
+	printf("process two: inside");
+	info->outfile = open(argv[4], O_CREAT, O_RDWR, 0644);
 	if (info->outfile < 0)
 	{
 		perror("Error opening the outfile");
@@ -45,5 +47,5 @@ void	process_two(char **argv, t_info *info)
 	close(info->fd_dup[0]);
 	close(info->fd_dup[1]);
 	free(info);
-	exit(EXIT_FAILURE); /* failuere? */
+	exit(EXIT_FAILURE);
 }
