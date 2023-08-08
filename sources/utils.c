@@ -27,7 +27,6 @@ void	define_command(char *cmd, t_info *info)
 	info->arg_commands = ft_split(cmd, ' ');
 	if (!info->arg_commands)
 		free_matrix(info->arg_commands);
-	ft_printf("Define Command\n");
 }
 
 /* cmd = argv */
@@ -36,19 +35,25 @@ int	execute_command(char *cmd, t_info *info)
 	ft_printf("Execute Command\n");
 	char	*backup;
 	int		i;
-
+	
 	i = 0;
 	define_command(cmd, info);
 	if(!info->my_commands)
+	{
+		ft_printf("my_commmands ERROR\n");
 		return(1);
+	}
 	while (info->env_paths && info->env_paths[i])
 	{
 		backup = ft_strjoin(info->env_paths[i], "/");
 		info->my_commands[i] = ft_strjoin(backup, info->arg_commands[0]);
-		if(access(info->my_commands[i], F_OK) != -1)
+		if(access(info->my_commands[i], F_OK & X_OK) != -1)
 			return(0);
 		i++;
 	}
+
+	ft_printf("my_commands[i]%s\n", info->my_commands[i]);
+
 	backup = ft_strjoin("command not found: ", cmd);
 	ft_putstr_fd(backup, 2);
 	free(backup);

@@ -18,6 +18,8 @@ void	process_one(char **argv, t_info *info)
 		printf("Process 1: execute command - ok\n");
 		execve(info->my_commands[0], info->my_commands, info->envp);
 		perror("execve");
+		free_matrix(info->my_commands);
+		free(info->envp);
 	}
 	close(info->infile);
 	close(info->fd_dup[0]);
@@ -27,8 +29,8 @@ void	process_one(char **argv, t_info *info)
 
 void	process_two(char **argv, t_info *info)
 {
-	printf("process two: inside");
-	info->outfile = open(argv[4], O_CREAT, O_RDWR, 0644);
+	printf("\nprocess two: inside\n");
+	info->outfile = open(argv[4], O_CREAT, O_RDWR, 644);
 	if (info->outfile < 0)
 	{
 		perror("Error opening the outfile");

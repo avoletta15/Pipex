@@ -33,8 +33,8 @@ int	main(int argc, char **argv, char **envp)
 	info->child_two = fork();
 	if (info->child_two < 0)
 		error();
-	// if (info->child_two == 0)
-	// 	process_two(argv, info);
+	if (info->child_two == 0)
+		process_two(argv, info);
 	// close(info->fd_pipe[0]);
 	// close(info->fd_pipe[1]);
 	// waitpid(info->child_one, NULL, 0);
