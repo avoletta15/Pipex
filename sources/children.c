@@ -2,7 +2,7 @@
 
 void	process_one(char **argv, t_info *info)
 {
-	printf("process one: inside");
+	printf("process one: inside\n");
 	info->infile = open(argv[1], O_RDONLY);
 	if (info->infile < 0)
 	{
@@ -11,18 +11,13 @@ void	process_one(char **argv, t_info *info)
 	}
 	close(info->fd_pipe[0]); // é suposto fechar, para que a uncia ref de fd seja o process 1
 	info->fd_dup[0] = dup2(info->infile, STDIN_FILENO);
-	close(info->infile);
+	close(info->fd_pipe[1]);
 	info->fd_dup[1] = dup2(info->fd_pipe[1], STDOUT_FILENO);
-	// close(info->fd_pipe[1]);
-	// if (execute_command(argv[2], info) == 0)
-	// {
-	// 	execve(info->my_commands[0], info->my_commands, info->envp);
-	// 	perror("execve");
-	// }
-	// close(info->fd_dup[0]);
-	// close(info->fd_dup[1]);
-	// free(info);
-	// exit(EXIT_FAILURE);
+	execute_command(argv[2], info);
+	close(info->infile);
+	close(info->fd_dup[0]);
+	close(info->fd_dup[1]);
+	exit(EXIT_FAILURE);
 }
 
 void	process_two(char **argv, t_info *info)
