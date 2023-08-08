@@ -19,7 +19,7 @@ typedef struct s_info
 	int		fd_pipe[2];
 	int		fd_dup[2];
 	char	**arg_commands;
-	char	**my_commands;
+	char	*my_command;
 	char	**envp;
 }			t_info;
 

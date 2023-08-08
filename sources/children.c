@@ -2,7 +2,6 @@
 
 void	process_one(char **argv, t_info *info)
 {
-	printf("process one: inside\n");
 	info->infile = open(argv[1], O_RDONLY);
 	if (info->infile < 0)
 	{
@@ -15,12 +14,14 @@ void	process_one(char **argv, t_info *info)
 	info->fd_dup[1] = dup2(info->fd_pipe[1], STDOUT_FILENO);
 	if (execute_command(argv[2], info) == 0)
 	{
+
+		execve(info->arg_commands[0], &info->my_command,  info->envp);
 		printf("Process 1: execute command - ok\n");
-		execve(info->my_commands[0], info->my_commands, info->envp);
-		perror("execve");
-		free_matrix(info->my_commands);
-		free(info->envp);
+		
+		free(info->my_command);
+		// free(info->envp);
 	}
+	//perror("execve");
 	close(info->infile);
 	close(info->fd_dup[0]);
 	close(info->fd_dup[1]);
@@ -29,8 +30,10 @@ void	process_one(char **argv, t_info *info)
 
 void	process_two(char **argv, t_info *info)
 {
-	printf("\nprocess two: inside\n");
-	info->outfile = open(argv[4], O_CREAT, O_RDWR, 644);
+	info->outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC , 0644);
+
+	ft_printf("fd outfile: %d\n", info->outfile);
+
 	if (info->outfile < 0)
 	{
 		perror("Error opening the outfile");
@@ -43,12 +46,11 @@ void	process_two(char **argv, t_info *info)
 	if (execute_command(argv[3], info) == 0)
 	{
 		printf("Process 2: execute command - ok\n");
-		execve(info->my_commands[0], info->my_commands, info->envp);
-		perror("execve");
+		execve(info->arg_commands[0], &info->my_command, info->envp);
 	}
+	//perror("execve");
 	close(info->outfile);
 	close(info->fd_dup[0]);
 	close(info->fd_dup[1]);
-	free(info);
 	exit(EXIT_FAILURE);
 }
