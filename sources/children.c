@@ -13,7 +13,12 @@ void	process_one(char **argv, t_info *info)
 	info->fd_dup[0] = dup2(info->infile, STDIN_FILENO);
 	close(info->fd_pipe[1]);
 	info->fd_dup[1] = dup2(info->fd_pipe[1], STDOUT_FILENO);
-	execute_command(argv[2], info);
+	if (execute_command(argv[2], info) == 0)
+	{
+		printf("Process 1: execute command - ok\n");
+		execve(info->my_commands[0], info->my_commands, info->envp);
+		perror("execve");
+	}
 	close(info->infile);
 	close(info->fd_dup[0]);
 	close(info->fd_dup[1]);
@@ -35,6 +40,7 @@ void	process_two(char **argv, t_info *info)
 	close(info->fd_pipe[0]);
 	if (execute_command(argv[3], info) == 0)
 	{
+		printf("Process 2: execute command - ok\n");
 		execve(info->my_commands[0], info->my_commands, info->envp);
 		perror("execve");
 	}
