@@ -1,7 +1,7 @@
 #
 #
 CC			= 	cc -g
-CFLAGS		= 	 -Wall -Wextra -Werror -fsanitize=address
+CFLAGS		= 	 -Wall -Wextra -Werror #-fsanitize=address
 RM			= 	/bin/rm -f
 NAME		= 	pipex
 INCLUDES	= 	-I include/
@@ -36,6 +36,11 @@ fclean: clean
 	@echo "$(RED)Pipex executable no longer existes$(DEFAULT)"
 
 re: fclean all
+
+run: re
+	$(MAKE) all
+	clear
+	./$(NAME) infile cat cat outfile
 
 watch:
 	@printf "Watching files..\n"

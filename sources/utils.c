@@ -22,19 +22,17 @@ void	find_env_paths(t_info *info)
 void	define_command(char *cmd, t_info *info)
 {
 	info->arg_commands = ft_split(cmd, ' ');
-	ft_printf("arg_command: %s\n", info->arg_commands[0]);
 }
 
 /* cmd = argv */
 int	execute_command(char *cmd, t_info *info)
 {
-	ft_printf("execute command: inside\n");
 	char	*backup;
 	int		i;
 	
 	i = 0;
 	define_command(cmd, info);
-	if (ft_strchr(info->arg_commands[0],'/') == NULL)
+	if (info->arg_commands[0] && ft_strchr(info->arg_commands[0],'/') == NULL)
 	{
 		while (info->env_paths && info->env_paths[i])
 		{
@@ -51,13 +49,13 @@ int	execute_command(char *cmd, t_info *info)
 			i++;
 		}
 	}
-	else if (access(info->arg_commands[0], F_OK) != -1)
+	else if (info->arg_commands[0] && access(info->arg_commands[0], F_OK) != -1)
 	{
 		info->my_command = ft_strdup(info->arg_commands[0]);
 		return (0);
 	}
 	backup = ft_strjoin("command not found: ", cmd);
-	ft_putstr_fd(backup, 2);
+	ft_putendl_fd(backup, 2);
 	free(backup);
 	free(info->arg_commands);
 	free_matrix(info->env_paths);
