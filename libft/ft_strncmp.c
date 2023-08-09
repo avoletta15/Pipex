@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:33:44 by marioliv          #+#    #+#             */
-/*   Updated: 2023/08/02 10:07:57 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2023/04/14 16:24:23 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

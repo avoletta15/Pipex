@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_adress.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 12:14:30 by marioliv          #+#    #+#             */
-/*   Updated: 2023/07/03 13:58:51 by marioliv         ###   ########.fr       */
+/*   Created: 2023/07/03 13:43:54 by marioliv          #+#    #+#             */
+/*   Updated: 2023/07/03 13:49:01 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+size_t	ft_adress(unsigned long int loc)
 {
-	size_t	len;
-	size_t	i;
-	char	*str;
+	int	i;
 
 	i = 0;
-	len = ft_strlen((char *)s);
-	str = (char *)malloc((sizeof(char) * len) + 1);
-	if (!*f || !str)
-		return (0);
-	while (s[i])
+	if (loc == 0)
+		i += ft_string("0x0");
+	else
 	{
-		str[i] = f(i, s[i]);
-		i++;
+		i += ft_string("0x");
+		i += ft_hexa(loc, HEXALOW);
 	}
-	str[i] = '\0';
-	return (str);
+	return (i);
 }

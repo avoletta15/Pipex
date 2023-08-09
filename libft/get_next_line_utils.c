@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/03 13:49:57 by marioliv          #+#    #+#             */
+/*   Updated: 2023/07/03 13:56:04 by marioliv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
@@ -72,7 +84,8 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 
 	a = 0;
 	i = 0;
-	str = (char *)malloc(sizeof(char) * (ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen_gnl(s1) + ft_strlen_gnl(s2)
+				+ 1));
 	if (!str || !s1 || !s2)
 		return (NULL);
 	while (s1[a] != '\0')
@@ -81,11 +94,10 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 		a++;
 		i++;
 	}
-	a = 0;
-	while (s2[a] != '\0')
+	a = -1;
+	while (s2[++a] != '\0')
 	{
 		str[i] = s2[a];
-		a++;
 		i++;
 	}
 	str[i] = '\0';
@@ -104,14 +116,4 @@ char	*ft_strchr_gnl(const char *s, int c)
 		return ((char *)&*str);
 	else
 		return (NULL);
-}
-
-size_t	ft_strlen_gnl(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
 }
