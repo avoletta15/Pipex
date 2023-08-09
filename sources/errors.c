@@ -6,7 +6,7 @@
 /*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:52:36 by marioliv          #+#    #+#             */
-/*   Updated: 2023/08/09 12:22:43 by marioliv         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:29:55 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error(void)
 {
-	perror(NULL);
+	perror("pipex");
 	exit(EXIT_FAILURE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:52:32 by marioliv          #+#    #+#             */
-/*   Updated: 2023/08/09 12:20:43 by marioliv         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:41:46 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	process_one(char **argv, t_info *info)
 	if (info->infile < 0)
 	{
 		close_pipe(info->fd_pipe);
-		ft_putendl_fd("No such file or directory: ", 2);
+		perror("pipex");
 		free_matrix(info->env_paths);
 		exit(EXIT_FAILURE);
 	}
@@ -41,11 +41,10 @@ void	process_one(char **argv, t_info *info)
 	close(info->infile);
 	close(info->fd_pipe[1]);
 	if (execute_command(argv[2], info) == 0)
-	{
 		ft_exeve_free(info);
-	}
+	else
+		free_matrix(info->env_paths);
 	free_matrix(info->arg_commands);
-	free_matrix(info->env_paths);
 	close_pipe(info->fd_dup);
 	exit(EXIT_FAILURE);
 }
@@ -56,7 +55,7 @@ void	process_two(char **argv, t_info *info)
 	if (info->outfile < 0)
 	{
 		close_pipe(info->fd_pipe);
-		ft_putendl_fd("No such file or directory: ", 2);
+		perror("pipex");
 		free_matrix(info->env_paths);
 		exit(EXIT_FAILURE);
 	}
@@ -69,11 +68,10 @@ void	process_two(char **argv, t_info *info)
 		error();
 	close(info->outfile);
 	if (execute_command(argv[3], info) == 0)
-	{
 		ft_exeve_free(info);
-	}
+	else
+		free_matrix(info->env_paths);
 	free_matrix(info->arg_commands);
-	free_matrix(info->env_paths);
 	close_pipe(info->fd_dup);
 	exit(EXIT_FAILURE);
 }

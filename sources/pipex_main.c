@@ -6,18 +6,18 @@
 /*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:52:39 by marioliv          #+#    #+#             */
-/*   Updated: 2023/08/09 14:34:36 by marioliv         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:43:20 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_final_free(t_info info)
+void	ft_final_free(t_info *info)
 {
-	close(info.fd_pipe[0]);
-	waitpid(info.child_two, NULL, 0);
-	waitpid(info.child_one, NULL, 0);
-	free_matrix(info.env_paths);
+	close(info->fd_pipe[0]);
+	waitpid(info->child_one, NULL, 0);
+	waitpid(info->child_two, NULL, 0);
+	free_matrix(info->env_paths);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -45,5 +45,6 @@ int	main(int argc, char **argv, char **envp)
 		error();
 	if (info.child_two == 0)
 		process_two(argv, &info);
+	ft_final_free(&info);
 	return (0);
 }
