@@ -6,11 +6,20 @@
 /*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:52:32 by marioliv          #+#    #+#             */
-/*   Updated: 2023/08/09 11:49:38 by marioliv         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:20:43 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_exeve_free(t_info *info)
+{
+	free(info->arg_commands[0]);
+	info->arg_commands[0] = ft_strdup(info->my_command);
+	execve(info->my_command, info->arg_commands, info->envp);
+	perror("execve");
+	free(info->my_command);
+}
 
 void	process_one(char **argv, t_info *info)
 {
@@ -22,23 +31,18 @@ void	process_one(char **argv, t_info *info)
 		free_matrix(info->env_paths);
 		exit(EXIT_FAILURE);
 	}
-	close(info->fd_pipe[0]); /* eh suposto fechar, para que a unica referendia de fd seja os dados
-							para que a uncia ref de fd seja o process 1 */
+	close(info->fd_pipe[0]);
 	info->fd_dup[0] = dup2(info->infile, STDIN_FILENO);
-	if (info->fd_dup[0] == -1)	
-		error(NULL);
-	close(info->infile);
+	if (info->fd_dup[0] == -1)
+		error();
 	info->fd_dup[1] = dup2(info->fd_pipe[1], STDOUT_FILENO);
-	if (info->fd_dup[1] == -1)	
-		error(NULL);
+	if (info->fd_dup[1] == -1)
+		error();
+	close(info->infile);
 	close(info->fd_pipe[1]);
 	if (execute_command(argv[2], info) == 0)
 	{
-		free(info->arg_commands[0]);
-		info->arg_commands[0] = ft_strdup(info->my_command);
-		execve(info->my_command, info->arg_commands, info->envp);
-		perror("execve");
-		free(info->my_command);
+		ft_exeve_free(info);
 	}
 	free_matrix(info->arg_commands);
 	free_matrix(info->env_paths);
@@ -48,7 +52,7 @@ void	process_one(char **argv, t_info *info)
 
 void	process_two(char **argv, t_info *info)
 {
-	info->outfile = open(argv[4],  O_TRUNC | O_CREAT | O_RDWR, 0644);
+	info->outfile = open(argv[4], O_TRUNC | O_CREAT | O_RDWR, 0644);
 	if (info->outfile < 0)
 	{
 		close_pipe(info->fd_pipe);
@@ -58,20 +62,15 @@ void	process_two(char **argv, t_info *info)
 	}
 	info->fd_dup[0] = dup2(info->fd_pipe[0], STDIN_FILENO);
 	if (info->fd_dup[0] == -1)
-		error(NULL);
+		error();
 	close(info->fd_pipe[0]);
 	info->fd_dup[1] = dup2(info->outfile, STDOUT_FILENO);
 	if (info->fd_dup[1] == -1)
-		error(NULL);
+		error();
 	close(info->outfile);
 	if (execute_command(argv[3], info) == 0)
 	{
-		free(info->arg_commands[0]);
-		info->arg_commands[0] = ft_strdup(info->my_command);
-		execve(info->my_command, info->arg_commands, info->envp);
-		perror("execve");
-		free(info->my_command);
-
+		ft_exeve_free(info);
 	}
 	free_matrix(info->arg_commands);
 	free_matrix(info->env_paths);

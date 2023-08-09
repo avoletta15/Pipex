@@ -6,21 +6,21 @@
 /*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:52:36 by marioliv          #+#    #+#             */
-/*   Updated: 2023/08/09 11:04:43 by marioliv         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:22:43 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error(char* msg)
+void	error(void)
 {
-	perror(msg != NULL ? msg : "pois pois");
+	perror(NULL);
 	exit(EXIT_FAILURE);
 }
 
 void	free_matrix(char **cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!cmd)
@@ -31,4 +31,12 @@ void	free_matrix(char **cmd)
 		i++;
 	}
 	free(cmd);
+}
+
+void	close_pipe(int *fd)
+{
+	if (fd[0] != -1)
+		close(fd[0]);
+	if (fd[1] != -1)
+		close(fd[1]);
 }

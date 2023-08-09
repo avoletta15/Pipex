@@ -6,7 +6,7 @@
 /*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:52:41 by marioliv          #+#    #+#             */
-/*   Updated: 2023/08/09 11:02:10 by marioliv         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:23:00 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int			execute_command(char *cmd, t_info *info);
 void		close_pipe(int *fd);
 
 /* errors */
-void		error(char* msg);
+void		error(void);
 void		free_matrix(char **cmd);
+void		close_pipe(int *fd);
 
 #endif

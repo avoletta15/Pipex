@@ -13,7 +13,10 @@ ORANGE = \033[38;5;208m
 DEFAULT = \033[0m
 YELLOW = \033[1;33m
 
-SRCS = $(wildcard sources/*.c)
+SRCS = ./sources/pipex_main.c \
+		./sources/utils.c \
+		./sources/children.c \
+		./sources/errors.c
 
 OBJS = $(SRCS:.c=.o)
 
